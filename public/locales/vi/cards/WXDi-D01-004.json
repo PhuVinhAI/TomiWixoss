@@ -1,0 +1,12 @@
+{
+  "name": "At =Tre=, the Opened Gate",
+  "class": null,
+  "abilities": [
+    {
+      "description": "Chọn ba SIGNI trên sân của bạn có class khác nhau nhận +3000 sức mạnh cho đến hết lượt."
+    },
+    {
+      "description": "[Nạp Ener 2]. Nếu các lá bài đưa vào Ener Zone theo cách này không cùng class, [Nạp Ener 1]."
+    }
+  ]
+}

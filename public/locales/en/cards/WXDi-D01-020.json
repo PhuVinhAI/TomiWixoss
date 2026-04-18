@@ -1,0 +1,15 @@
+{
+  "name": "Servant #",
+  "class": "Primal Tone",
+  "abilities": [
+    {
+      "description": "(You may discard this card to prevent damage from a single LRIG attack.)"
+    },
+    {
+      "description": "[Multi Ener] (When paying costs, this card can be used as any color.)"
+    },
+    {
+      "description": "Add target SIGNI from your trash to your hand."
+    }
+  ]
+}

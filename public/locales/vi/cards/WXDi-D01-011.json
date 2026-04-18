@@ -1,0 +1,9 @@
+{
+  "name": "Harmonic Call",
+  "class": null,
+  "abilities": [
+    {
+      "description": "Bạn có <Ancient Surprise> trên sân với tất cả thành viên level một hoặc cao hơn. Xem tám lá bài trên cùng của bộ bài. Đưa tối đa một SIGNI level 1, một SIGNI level 2, và một SIGNI level 3 từ chúng lên sân. Đưa phần còn lại xuống đáy bộ bài theo thứ tự ngẫu nhiên. Sau đó, SIGNI level 1 mục tiêu nhận [Assassin], SIGNI level 2 mục tiêu nhận [Lancer], và SIGNI level 3 mục tiêu nhận [Double Crush] cho đến hết lượt."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Tobiel, Full Armed",
+  "class": "War Tone: Armed",
+  "abilities": [
+    {
+      "description": "Whenever this SIGNI attacks, another target SIGNI on your field gets +5000 power until end of turn."
+    },
+    {
+      "description": "Discard two cards: Draw two cards."
+    },
+    {
+      "description": "Choose one - 1. Vanish target upped SIGNI on your opponent's field. 2. Draw a card."
+    }
+  ]
+}

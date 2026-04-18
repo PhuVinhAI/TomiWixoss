@@ -1,0 +1,12 @@
+{
+  "name": "Polygenesis",
+  "class": null,
+  "abilities": [
+    {
+      "description": "Add target green SIGNI from your Ener Zone to your hand. If there are three <Ancient Surprise> LRIG on your field, instead add target SIGNI from your Ener Zone to your hand."
+    },
+    {
+      "description": "Vanish target upped SIGNI on your opponent's field."
+    }
+  ]
+}

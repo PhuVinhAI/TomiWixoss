@@ -1,0 +1,12 @@
+{
+  "name": "Polygenesis",
+  "class": null,
+  "abilities": [
+    {
+      "description": "Thêm một SIGNI xanh lá mục tiêu từ Ener Zone vào tay bạn. Nếu có ba LRIG <Ancient Surprise> trên sân của bạn, thay vào đó, thêm một SIGNI mục tiêu bất kỳ từ Ener Zone vào tay bạn."
+    },
+    {
+      "description": "Vanish một SIGNI đang upped mục tiêu trên sân đối phương."
+    }
+  ]
+}

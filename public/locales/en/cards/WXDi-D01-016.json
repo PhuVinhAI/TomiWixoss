@@ -1,0 +1,12 @@
+{
+  "name": "Assylen, Natural Crystal",
+  "class": "Nature Tone: Jewel",
+  "abilities": [
+    {
+      "description": "Whenever this SIGNI attacks, if its power is 15000 or more, your opponent discards a card. If its power is 20000 or more, your opponent instead discards a card at random."
+    },
+    {
+      "description": "Down target SIGNI on your opponent's field and freeze it. Draw a card."
+    }
+  ]
+}

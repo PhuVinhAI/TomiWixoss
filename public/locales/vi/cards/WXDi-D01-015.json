@@ -1,0 +1,15 @@
+{
+  "name": "Tobiel, Full Armed",
+  "class": "War Tone: Armed",
+  "abilities": [
+    {
+      "description": "Mỗi khi SIGNI này tấn công, SIGNI khác mục tiêu trên sân của bạn nhận +5000 sức mạnh cho đến hết lượt."
+    },
+    {
+      "description": "Bỏ hai lá bài: Rút hai lá bài."
+    },
+    {
+      "description": "Chọn một - 1. Vanish SIGNI upped mục tiêu trên sân đối phương. 2. Rút một lá bài."
+    }
+  ]
+}

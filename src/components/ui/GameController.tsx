@@ -8,13 +8,13 @@ import {
   advancePhaseAction,
   startSetupAction,
   confirmMulliganAction,
+  cancelPlayerActionInECS,
 } from "@/logic/actions.miniplex";
 import { GamePhase, Zone } from "@/logic/constants";
-import { cancelPlayerActionInECS } from "@/logic/actions.miniplex";
-import { useTranslation } from "react-i18next"; // Import hook
+import { useTranslation } from "react-i18next";
 
 export default function GameController() {
-  const { t } = useTranslation(); // Sử dụng hook
+  const { t } = useTranslation();
   useStore(useGameStore, (state) => state.worldVersion);
 
   const phase = globalEntity.globalState?.phase;
@@ -50,7 +50,7 @@ export default function GameController() {
       ? phase.charAt(0).toUpperCase() + phase.slice(1)
       : "Loading...";
     const phaseTitle = t("gameController.phaseTitle", {
-      turn: turn,
+      turn,
       phase: phaseText,
     });
 
@@ -146,21 +146,19 @@ export default function GameController() {
           </>
         );
 
-      case GamePhase.END:
-        const handSize = world
-          ? Array.from(
-              world
-                .with("zone")
-                .where((e: Entity) => e.zone?.zone === Zone.HAND)
-            ).length
-          : 0;
+      case GamePhase.END: {
+        const handSize = Array.from(
+          world
+            .with("zone")
+            .where((e: Entity) => e.zone?.zone === Zone.HAND)
+        ).length;
         return (
           <>
             <h3 className="font-bold">{phaseTitle}</h3>
             {mustDiscard && (
               <p className="text-destructive text-sm my-2">
                 {t("gameController.endPhaseDiscard", {
-                  handSize: handSize,
+                  handSize,
                   discardCount: handSize - 6,
                 })}
               </p>
@@ -174,6 +172,8 @@ export default function GameController() {
             </Button>
           </>
         );
+      }
+
       default:
         return (
           <>

@@ -1,0 +1,12 @@
+{
+  "name": "At =Tre=, the Opened Gate",
+  "class": null,
+  "abilities": [
+    {
+      "description": "Target three SIGNI on your field with different classes get +3000 power until end of turn."
+    },
+    {
+      "description": "[Ener Charge 2]. If the cards put into your Ener Zone this way do not share a class, [Ener Charge 1]."
+    }
+  ]
+}

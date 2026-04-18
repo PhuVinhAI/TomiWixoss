@@ -1,4 +1,3 @@
-// src/components/canvas/Scene.tsx
 "use client";
 
 import { Suspense, useMemo, useCallback, useEffect } from "react";
@@ -17,17 +16,15 @@ import InteractiveZone from "./InteractiveZone";
 import { useStore } from "zustand";
 import useGameStore from "@/store/gameStore";
 import { P1_ZONE_COORDINATES, CARD_DIMENSIONS } from "@/data/zoneCoordinates";
-import { CardInstance } from "@/types/game";
 import {
   world as miniplexWorld,
   globalEntity,
 } from "@/logic/ecs/world.miniplex";
 import { Entity } from "@/logic/ecs/types.miniplex";
-import { chargeEnerAction } from "@/logic/actions.miniplex";
+import { chargeEnerAction, cancelPlayerActionInECS } from "@/logic/actions.miniplex";
 import { getValidGrowOptions } from "@/logic/ecs/selectors.miniplex";
 import { useWorldQuery } from "@/hooks/useWorldQuery";
 import { GamePhase, Zone } from "@/logic/constants";
-import { cancelPlayerActionInECS } from "@/logic/actions.miniplex";
 
 function SceneContent() {
   const { invalidate } = useThree();
@@ -41,19 +38,22 @@ function SceneContent() {
   );
   const addLog = useStore(useGameStore, (state) => state.addLog);
   const coords = P1_ZONE_COORDINATES;
+
   useEffect(() => {
     invalidate();
   }, [worldVersion, invalidate]);
+
   const renderableEntities = useWorldQuery(() =>
     Array.from(miniplexWorld.with("cardInfo", "zone", "status"))
   );
+
   const handleCardClick = useCallback(
     (entityUuid: string) => {
       const entity = renderableEntities.find((e) => e.uuid === entityUuid);
-      if (!entity) return;
+      if (!entity?.zone) return;
 
       const { zone } = entity;
-      if (!zone) return;
+
       if (
         zone.zone === Zone.SIGNI_ZONE &&
         phase === GamePhase.ENER &&
@@ -61,12 +61,14 @@ function SceneContent() {
       ) {
         chargeEnerAction(entityUuid);
       }
+
       const isAssistLrig =
         zone.zone === Zone.LRIG_ZONE && (zone.index === 0 || zone.index === 2);
       const canTryGrowAssist =
         isAssistLrig &&
         phase &&
         [GamePhase.MAIN, GamePhase.ATTACK].includes(phase as any);
+
       if (canTryGrowAssist) {
         const options = getValidGrowOptions(phase, zone.index);
         if (options.length > 0) {
@@ -76,14 +78,9 @@ function SceneContent() {
         }
       }
     },
-    [
-      phase,
-      actionTakenInPhase,
-      openLrigDeckViewerForAssist,
-      addLog,
-      renderableEntities,
-    ]
+    [phase, actionTakenInPhase, openLrigDeckViewerForAssist, addLog, renderableEntities]
   );
+
   const entitiesByZone = useMemo(() => {
     const map = new Map<string, Entity[]>();
     for (const entity of renderableEntities) {
@@ -98,15 +95,13 @@ function SceneContent() {
 
   return (
     <>
-      {/* <--- THIẾT LẬP CAMERA TỰ DO VÀ GIỚI HẠN GÓC NHÌN ---> */}
       <PerspectiveCamera makeDefault position={[0, 12, 18]} fov={50} />
       <OrbitControls
-        enableRotate={true} /* MỞ KHÓA XOAY CAMERA */
+        enableRotate={true}
         enablePan={true}
         panSpeed={0.8}
-        minDistance={5} /* Cho phép zoom gần hơn */
-        maxDistance={40} /* Cho phép zoom xa hơn */
-        /* Giới hạn góc nhìn, ngăn không cho camera đi xuống dưới mặt bàn */
+        minDistance={5}
+        maxDistance={40}
         maxPolarAngle={Math.PI / 2 - 0.05}
       />
 
@@ -115,12 +110,6 @@ function SceneContent() {
       <directionalLight position={[10, 20, 10]} intensity={1.2} castShadow />
       <Stats />
 
-      {/* 
-        BỎ GROUP XOAY ĐI, SÂN ĐẤU SẼ TRỞ LẠI NẰM NGANG BÌNH THƯỜNG
-        VÌ GIỜ CAMERA CÓ THỂ XOAY TỰ DO
-      */}
-
-      {/* --- BÀN ĐẤU --- */}
       <GameBoard
         position={[0, 0, 12 / (4962 / 3509) / 2]}
         rotation={[-Math.PI / 2, 0, 0]}
@@ -130,9 +119,7 @@ function SceneContent() {
         rotation={[-Math.PI / 2, 0, Math.PI]}
       />
 
-      {/* --- RENDER CÁC LÁ BÀI --- */}
       {renderableEntities.map((entity: Entity) => {
-        // ... (phần còn lại của logic render bài không đổi) ...
         const { cardInfo, status, zone } = entity;
         if (!cardInfo || !status || !zone) return null;
 
@@ -140,6 +127,7 @@ function SceneContent() {
         let rotation: [number, number, number] = [-Math.PI / 2, 0, 0];
         const zoneName = zone.zone;
         const index = zone.index;
+
         switch (zoneName) {
           case Zone.MAIN_DECK:
             position = [
@@ -149,13 +137,8 @@ function SceneContent() {
             ];
             break;
 
-          // Tách riêng TRASH ra khỏi MAIN_DECK và thêm logic mới
           case Zone.TRASH: {
-            // Lấy trực tiếp index đã được gán từ logic game
             const stackIndex = zone.index;
-
-            // Tính toán vị trí Y dựa trên stackIndex để xếp chồng chính xác
-            // Lá có index cao hơn (mới hơn) sẽ có vị trí Y cao hơn (nằm trên)
             position = [
               coords.TRASH.x,
               coords.TRASH.y + stackIndex * CARD_DIMENSIONS.thickness,
@@ -181,7 +164,8 @@ function SceneContent() {
               position[2] = coords.LRIG_TRASH.z;
             }
             break;
-          case Zone.LRIG_ZONE:
+
+          case Zone.LRIG_ZONE: {
             const lrigCoords = [
               coords.ASSIST_LRIG_1,
               coords.CENTER_LRIG,
@@ -189,7 +173,9 @@ function SceneContent() {
             ][index];
             position = [lrigCoords.x, lrigCoords.y, lrigCoords.z];
             break;
-          case Zone.SIGNI_ZONE:
+          }
+
+          case Zone.SIGNI_ZONE: {
             const signiCoords = [
               coords.SIGNI_1,
               coords.SIGNI_2,
@@ -197,6 +183,8 @@ function SceneContent() {
             ][index];
             position = [signiCoords.x, signiCoords.y, signiCoords.z];
             break;
+          }
+
           case Zone.LIFE_CLOTH:
             position = [
               coords.LIFE_CLOTH.x + index * 0.67,
@@ -205,6 +193,7 @@ function SceneContent() {
             ];
             rotation = [-Math.PI / 2, 0, Math.PI / 2];
             break;
+
           case Zone.ENER_ZONE: {
             const zoneEntities = entitiesByZone.get(Zone.ENER_ZONE);
             if (!zoneEntities) return null;
@@ -220,11 +209,13 @@ function SceneContent() {
             rotation = [-Math.PI / 2, 0, Math.PI];
             break;
           }
+
           case Zone.HAND:
             return null;
           default:
             return null;
         }
+
         return (
           <Card
             key={entity.uuid}
@@ -236,7 +227,6 @@ function SceneContent() {
         );
       })}
 
-      {/* VÙNG TƯƠNG TÁC CHO SIGNI ZONE */}
       {[coords.SIGNI_1, coords.SIGNI_2, coords.SIGNI_3].map(
         (signiCoords, index) => {
           const isSlotEmpty = !renderableEntities.some(

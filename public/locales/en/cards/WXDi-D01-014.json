@@ -1,0 +1,12 @@
+{
+  "name": "Zwei =Slow Loris=",
+  "class": "War Tone: Venom",
+  "abilities": [
+    {
+      "description": "As long as there are three or more different classes among SIGNI in your Ener Zone, this SIGNI gets +5000 power."
+    },
+    {
+      "description": "Another target SIGNI on your field with power 15000 or more gains [Lancer] until end of turn."
+    }
+  ]
+}

@@ -1,63 +1,50 @@
-// import { GameEvent } from "@/logic/core/events.types";
-import luaService from "@/logic/lua/lua.service";
-import useGameStore from "@/store/gameStore";
-
-// --- THAY ĐỔI LỚN ---
 import { world } from "../world.miniplex";
-import { Entity } from "../types.miniplex";
 import { GameEvent, GameEventPayloads } from "../../messaging/events.types";
 import eventBus from "../../messaging/event.bus";
+import { cardEffectRegistry } from "../../cards/CardEffectRegistry";
+import { EffectContext } from "../../cards/CardEffect";
 
-let isInitialized = false; // <-- Biến cờ
+let isInitialized = false;
 
-// System bây giờ là một hàm khởi tạo
 export function initializeScriptingSystem() {
-  if (isInitialized) return; // <-- Ngăn chặn chạy lại
+  if (isInitialized) return;
   isInitialized = true;
 
-  console.log("Initializing Scripting System...");
-  // Đăng ký lắng nghe các sự kiện game
+  console.log("Initializing OOP Card Effect System...");
   eventBus.on(GameEvent.CARD_PLAYED, onCardPlayed);
+  eventBus.on(GameEvent.CARD_DISCARDED, onCardVanished);
 }
 
-// Handler cho sự kiện card played
-async function onCardPlayed(
+function onCardPlayed(
   payload: GameEventPayloads[GameEvent.CARD_PLAYED]
-): Promise<void> {
-  const { entityUuid } = payload;
+): void {
+  const entity = Array.from(world.entities).find((e) => e.uuid === payload.entityUuid);
+  if (!entity?.cardInfo) return;
 
-  // Tìm entity trong world
-  const entity = Array.from(world.entities).find((e) => e.uuid === entityUuid);
-  if (!entity || !entity.cardInfo) return;
+  const context: EffectContext = {
+    entityUuid: payload.entityUuid,
+    cardId: payload.cardId,
+    zone: payload.zone,
+    zoneIndex: payload.zoneIndex,
+    entity,
+  };
 
-  // Kiểm tra xem lá bài này có script cho sự kiện 'onPlay' không
-  const scriptFile = entity.cardInfo.data.scripts?.onPlay;
-  if (!scriptFile) return;
+  cardEffectRegistry.triggerOnEnter(context);
+}
 
-  console.log(
-    `%cSCRIPTING: Found 'onPlay' script (${scriptFile}) for card ${payload.cardId}`,
-    "color: #9B59B6"
-  );
+function onCardVanished(
+  payload: GameEventPayloads[GameEvent.CARD_DISCARDED]
+): void {
+  const entity = Array.from(world.entities).find((e) => e.uuid === payload.entityUuid);
+  if (!entity?.cardInfo) return;
 
-  try {
-    // 1. Tải script từ server
-    const response = await fetch(`/scripts/cards/${scriptFile}`);
-    const scriptContent = await response.text();
+  const context: EffectContext = {
+    entityUuid: payload.entityUuid,
+    cardId: payload.cardId,
+    zone: "",
+    zoneIndex: 0,
+    entity,
+  };
 
-    // 2. Thực thi script để load nó vào môi trường Lua
-    await luaService.doString(scriptContent);
-
-    // 3. Gọi hàm tương ứng với sự kiện
-    // Quy ước: Tên table trong Lua là ID của lá bài (thay '-' bằng '_')
-    const tableName = payload.cardId.replace(/-/g, "_");
-    const functionCall = `${tableName}.OnEnterField()`; // Quy ước tên hàm
-
-    console.log(
-      `%cSCRIPTING: Executing Lua function: ${functionCall}`,
-      "color: #9B59B6"
-    );
-    await luaService.doString(functionCall);
-  } catch (error) {
-    console.error(`Failed to execute script ${scriptFile}:`, error);
-  }
+  cardEffectRegistry.triggerOnVanish(context);
 }
