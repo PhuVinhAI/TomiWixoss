@@ -1,0 +1,107 @@
+{
+  "appName": "TomiWixoss",
+  "languages": {
+    "vi": "VI",
+    "en": "EN"
+  },
+  "gameController": {
+    "welcomeSubtitle": "Sẵn sàng để bắt đầu một trận đấu.",
+    "prepareButton": "Chuẩn bị",
+    "selectingLrigs": "Vui lòng chọn LRIG...",
+    "phaseTitle": "Lượt {{turn}} - {{phase}} Phase",
+    "autoPhase": "Đang tự động thực hiện...",
+    "enerCharged": "Đã nạp Ener.",
+    "enerPrompt": "Chọn một lá bài trên tay hoặc trên sân để nạp Ener.",
+    "nextPhaseButton": "Phase Tiếp theo",
+    "mulliganPrompt": "Chọn các lá bài trên tay muốn đổi.",
+    "mulliganSelected": "Đã chọn: {{count}}",
+    "mulliganConfirm": "Xác nhận đổi bài",
+    "growDone": "Đã Grow.",
+    "viewLrigDeck": "Xem LRIG Deck",
+    "endPhaseDiscard": "Tay bạn có {{handSize}} lá. Hãy bỏ {{discardCount}} lá.",
+    "endTurnButton": "Kết thúc Lượt",
+    "placeSigniPrompt": "Chọn một ô SIGNI trống trên sân...",
+    "cancelButton": "Hủy"
+  },
+  "gameLog": {
+    "title": "Log Trận Đấu"
+  },
+  "contextMenu": {
+    "chargeEner": "Nạp Ener",
+    "playSigni": "Đặt SIGNI",
+    "discard": "Bỏ bài"
+  },
+  "deckViewer": {
+    "title_center": "Chọn Center LRIG để Grow",
+    "title_assist": "Chọn Assist LRIG để Grow",
+    "description": "Chọn một lá bài để thực hiện hành động.",
+    "cardCount": "{{count}} lá"
+  },
+  "lrigSelector": {
+    "title": "Chọn LRIG Khởi đầu",
+    "description": "Chọn 1 Center LRIG (có dòng tiến hóa) và 2 Assist LRIG.",
+    "centerLabel": "Center LRIG",
+    "assistLabel_plural": "Chọn 2 Assist LRIG",
+    "assistLabel_singular": "Chọn thêm 1 Assist LRIG",
+    "assistLabel_done": "Đã chọn 2 Assist LRIG",
+    "confirmButton": "Xác nhận và Bắt đầu"
+  },
+  "card": {
+    "levelLabel": "Lv",
+    "ability_Enter": "[Enter]",
+    "ability_Action": "[Action]",
+    "ability_Auto": "[Auto]",
+    "ability_Const": "[Constant]",
+    "ability_Guard": "[Guard]",
+    "enerCharge": "[Nạp Ener]",
+    "multiEner": "[Multi Ener]",
+    "vanish": "Vanish",
+    "down": "Down",
+    "freeze": "freeze",
+    "assassin": "[Assassin]",
+    "lancer": "[Lancer]",
+    "doubleCrush": "[Double Crush]"
+  },
+  "logs": {
+    "phaseChange": "Bắt đầu {{phase}} Phase. (Lượt {{turn}})",
+    "enerCharge": "Nạp Ener từ {{source}}: {{cardName}}.",
+    "enerChargeSource": {
+      "hand": "tay",
+      "field": "sân"
+    },
+    "discard": "Bỏ bài: {{cardName}}.",
+    "mulligan": {
+      "confirm": "Đổi {{count}} lá bài.",
+      "skip": "Không đổi bài.",
+      "lifeClothSet": "Chia 7 lá Life Cloth.",
+      "gameStart": "Bắt đầu Lượt 1 - Up Phase"
+    },
+    "placeSigni": "Đặt SIGNI: {{cardName}} vào vị trí {{position}}.",
+    "placeSigniError": {
+      "level": "Không thể đặt SIGNI: Level quá cao (yêu cầu ≤ {{requiredLevel}}).",
+      "limit": "Không thể đặt SIGNI: Vượt quá giới hạn Level trên sân (Limit: {{limit}})."
+    },
+    "growLrig": "Grow LRIG thành {{cardName}}!",
+    "growLrigCost": "Trả {{count}} Ener.",
+    "growLrigError": {
+      "cost": "Không thể Grow: Không đủ Ener.",
+      "invalid": "Mục tiêu Grow không hợp lệ."
+    },
+    "upPhase": {
+      "uppedCards": "Up {{count}} lá bài trên sân.",
+      "noCards": "Không có lá bài nào cần Up."
+    },
+    "drawPhase": {
+      "drawCards": "Rút {{count}} lá bài.",
+      "deckEmpty": "Bộ bài đã hết!"
+    },
+    "setupStart": "Bắt đầu chuẩn bị trận đấu...",
+    "selectLrigs": "Chọn LRIG để bắt đầu trận đấu.",
+    "lrigsSelected": "Đã chọn LRIG. Rút 5 lá bài khởi đầu.",
+    "mulliganStart": "Bắt đầu giai đoạn Mulligan.",
+    "enerCharged": "Nạp {{count}} lá bài vào Ener Zone.",
+    "invalidPhase": "Bây giờ không thể thực hiện hành động này.",
+    "discardRequired": "Tay bạn có {{handSize}} lá. Hãy bỏ {{discardCount}} lá.",
+    "noGrowOptions": "Không có lựa chọn Grow hợp lệ."
+  }
+}
